@@ -111,26 +111,26 @@ export default {
 
 <style lang="scss">
 .carousel {
-  height: 200px;
+  height: 3rem;
   &-item {
     img {
       width: 100%;
-      height: 200px;
+      height: 3rem;
     }
   }
 }
 .hot {
   &-title {
     width: 100%;
-    height: 100px;
-    line-height: 100px;
+    height: 0.5rem;
+    line-height: 0.5rem;
   }
   &-swiper {
     &-content {
       text-align: center;
       img {
-        width: 50px;
-        height: 50px;
+        width: 2rem;
+        height: 2rem;
       }
     }
   }
