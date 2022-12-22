@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <van-nav-bar title="首页">
       <!-- <van-icon name="search" v-slot="left"/>
       <van-icon name="cart-o" v-slot="right"/> -->
@@ -33,6 +33,17 @@
         <swiper-slide>Slide 3</swiper-slide> -->
       </swiper>
     </div>
+    <!-- 推荐商品 -->
+    <div class="variety">
+      <p>推荐商品</p>
+      <ul>
+        <li class="variety-item" v-for="(item, index) in varietyItem" :key="index">
+          <img :src="item.img" />
+          <p>{{ item.name }}</p>
+          <p>${{ item.price }}</p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -44,6 +55,8 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
 // more module style...
+import axios from 'axios';
+import url from '@/service.config.js'
 
 export default {
   data() {
@@ -99,17 +112,75 @@ export default {
       ],
       swiperOption: {
         slidesPerView: 3
-      }
+      },
+      // 推荐商品
+      varietyItem: [
+        // {
+        //   name: 'aaaa钱钱钱钱钱吱吱吱吱吱吱吱吱呃呃呃呃呃呃呃呃',
+        //   img: 'https://img2.baidu.com/it/u=3745853261,2252591545&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889',
+        //   price: '3260',
+        //   company: '二二人柔柔弱弱日日日',
+        //   city: '黄石市'
+        // },
+        // {
+        //   name: 'bbbbb钱钱钱钱钱吱吱吱吱吱吱吱吱呃呃呃呃呃呃呃呃',
+        //   img: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic%2F17%2F41%2Ff7%2F1741f7254490601ece461a7788bbfb79.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1674210435&t=5bc13704cd982f3f7eae238843e9d521',
+        //   price: '3250',
+        //   company: '二二人柔柔弱弱日日日',
+        //   city: '大冶市'
+        // },
+        // {
+        //   name: 'ccccc钱钱钱钱钱吱吱吱吱吱吱吱吱呃呃呃呃呃呃呃呃',
+        //   img: 'https://img2.baidu.com/it/u=1259044139,110098611&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=1422',
+        //   price: '3240',
+        //   company: '二二人柔柔弱弱日日日',
+        //   city: '惠州市'
+        // },
+        // {
+        //   name: 'dddddd钱钱钱钱钱吱吱吱吱吱吱吱吱呃呃呃呃呃呃呃呃',
+        //   img: 'https://img2.baidu.com/it/u=1232339393,638892048&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=888',
+        //   price: '3230',
+        //   company: '二二人柔柔弱弱日日日',
+        //   city: '深圳市'
+        // },
+        // {
+        //   name: 'eeeeee钱钱钱钱钱吱吱吱吱吱吱吱吱呃呃呃呃呃呃呃呃',
+        //   img: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fefca347dcd6563696edf3680af7e6f9291d49e8b5d3f-zXvXny_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1674210435&t=224860a4ecdb25c66c14af5ff307543f',
+        //   price: '3220',
+        //   company: '二二人柔柔弱弱日日日',
+        //   city: '武汉市'
+        // },
+        // {
+        //   name: 'ffffff钱钱钱钱钱吱吱吱吱吱吱吱吱呃呃呃呃呃呃呃呃',
+        //   img: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201610%2F14%2F20161014165303_rLAuK.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1674210435&t=5c52e8e2b1447cbb7358cc4c624fc0fc',
+        //   price: '3210',
+        //   company: '二二人柔柔弱弱日日日',
+        //   city: '长治市'
+        // }
+      ]
     }
   },
   components: {
     Swiper,
     SwiperSlide
+  },
+  created() {
+    // let url1 = 'http://www.weichuang.com/getList';
+    // let url2 = 'http://www.weichuang.com/getUser';
+    // let url3 = 'http://www.weichuang.com/regexp';
+    let url4 = url.getVarietyItem;
+    axios.get(url4).then(res => {
+      console.log(res);
+      this.varietyItem = res.data;
+    });
   }
 }
 </script>
 
 <style lang="scss">
+.container {
+  background-color: #eee;
+}
 .carousel {
   height: 3rem;
   &-item {
@@ -120,6 +191,8 @@ export default {
   }
 }
 .hot {
+  margin-top: 0.2rem;
+  background-color: #fff;
   &-title {
     width: 100%;
     height: 0.5rem;
@@ -133,6 +206,24 @@ export default {
         height: 2rem;
       }
     }
+  }
+}
+.variety {
+  margin-top: 0.2rem;
+  background-color: #fff;
+  text-align: center;
+  margin-bottom: 1rem;
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  &-item {
+    flex-basis: 45%;
+  }
+  img {
+    width: 2rem;
+    height: 2rem;
   }
 }
 </style>
