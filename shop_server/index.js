@@ -5,7 +5,11 @@ const app = new Koa();
 const cors = require('koa2-cors');
 app.use(cors({
     origin: ['http://localhost:8080'],
-    credentials: true
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
 
 // 接收前端post请求
@@ -15,9 +19,15 @@ app.use(bodyParser());
 // 加载路由
 const Router = require('koa-router');
 let user = require('./controller/user.js');
+let product = require('./controller/product.js');
+let type = require('./controller/type.js');
+let cart = require('./controller/cart');
 
 let router = new Router();
 router.use('/user', user.routes());
+router.use('/product', product.routes());
+router.use('/type', type.routes());
+router.use('/cart', cart.routes())
 
 app.use(router.routes());
 app.use(router.allowedMethods());
