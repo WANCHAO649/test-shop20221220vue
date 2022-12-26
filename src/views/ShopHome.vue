@@ -7,7 +7,7 @@
         <van-icon name="search" size="18" />
       </template>
        <template #right>
-        <van-icon name="cart-o" size="18" />
+        <van-icon @click="$router.push('/profile')">{{JSON.stringify(userInfo) === '{}' ? '未登录' : userInfo.userName}}</van-icon>
       </template>
     </van-nav-bar>
     <!-- 轮播 -->
@@ -57,6 +57,7 @@ import 'swiper/css/pagination'
 // more module style...
 import axios from 'axios';
 import url from '@/service.config.js'
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -173,6 +174,9 @@ export default {
       console.log(res);
       this.varietyItem = res.data;
     });
+  },
+  computed: {
+    ...mapState(["userInfo"])
   }
 }
 </script>
